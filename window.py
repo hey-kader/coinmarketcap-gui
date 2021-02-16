@@ -43,13 +43,27 @@ class App:
             self.supply.append(self.data[i]["circulating_supply"])
             self.marketcap.append(self.prices[i]*self.supply[i])
 
+        
+        for i in range(len(self.slugs)):
+            while len (self.slugs[i]) < 30:
+                self.slugs[i] += " " 
+            while len (self.tickers[i]) < 30:
+                self.tickers[i] += " "
+            while len (str(self.prices[i])) < 30:
+                self.prices[i] = str(self.prices[i])+ " "
+            while len (str(self.supply[i])) < 30:
+                self.supply[i] = str(self.supply[i])+" "
+            while len (str(self.marketcap[i])) < 30:
+                self.marketcap[i] = str(self.marketcap[i]) + " "
+
+
         for t in range (100):
-            Label (self.data_frame, text=str(t+1)+'. ').grid (row=t, column=0,padx=10)  
-            Label (self.data_frame, text=self.slugs[t]).grid (row=t, column=1,padx=5)  
-            Label (self.data_frame, text=self.tickers[t]).grid (row=t, column=2,padx=5)  
-            Label (self.data_frame, text="Price: " + str(self.prices[t])).grid (row=t, column=3,padx=5)
-            Label (self.data_frame, text="Market Cap: " + str(self.marketcap[t])).grid (row=t, column=4,padx=5)
-            Label (self.data_frame, text="Supply: " + str(self.supply[t])).grid (row=t, column=5, padx=5) 
+            Label (self.data_frame, text=str(t+1)+'. ', bg="blue", justify=LEFT, anchor="e", relief=RAISED).grid (row=t, column=0)  
+            Label (self.data_frame, text=str(self.slugs[t]), fg="black", bg="yellow", justify=LEFT, anchor="e", relief=RAISED).grid (row=t, column=1)  
+            Label (self.data_frame, text=self.tickers[t], bg="orange", justify=LEFT, anchor="e", relief=RAISED).grid (row=t, column=3, columnspan=2)  
+            Label (self.data_frame, text="Price: " + str(self.prices[t]), bg="purple", justify=LEFT, anchor="e").grid (row=t, column=5, columnspan=2)
+            Label (self.data_frame, text="Market Cap: " + str(self.marketcap[t]), fg="black", bg="lime", justify=LEFT, anchor="e").grid (row=t, column=7, columnspan=2)
+            Label (self.data_frame, text="Supply: " + str(self.supply[t]), bg="red", justify=LEFT, anchor="e").grid (row=t, column=9, padx=5, columnspan=2) 
 
         self.win.mainloop ()
 
@@ -57,6 +71,11 @@ class App:
         with open ("coins.json", "w") as f:
             f.write (str(data["data"]))
             f.close ()
+
+    def pad_slugs (self):
+        for s in range (len(self.slugs)):
+            while len(self.slugs[s]) < 10:
+                self.slugs[s] = self.slugs[s] + ' '
 
      
     def get_data (self):
